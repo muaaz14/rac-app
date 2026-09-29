@@ -1,0 +1,64 @@
+{
+  "startNode": "check_subjective",
+  "nodes": {
+    "check_subjective": {
+      "type": "binary",
+      "step": 1,
+      "totalSteps": 5,
+      "citation": "4 kap. 1 §",
+      "question": "Subjective Requirement Check",
+      "description": "Does the good fail to match the quantity, quality, packaging, or description explicitly agreed upon in the contract or sales receipt?",
+      "yes": "result_defective_subjective",
+      "no": "check_objective"
+    },
+    "check_objective": {
+      "type": "binary",
+      "step": 2,
+      "totalSteps": 5,
+      "citation": "4 kap. 2 §",
+      "question": "Objective Requirement Check",
+      "description": "Does the product fail normal expectations for fitness for standard purpose, durability, safety, or sample/model comparison?",
+      "yes": "check_explicit_agreement",
+      "no": "check_assembly"
+    },
+    "check_explicit_agreement": {
+      "type": "binary",
+      "step": 3,
+      "totalSteps": 5,
+      "citation": "4 kap. 6 §",
+      "question": "Explicit Pre-Sale Fault Disclaimer",
+      "description": "Was the consumer explicitly informed of this specific fault prior to purchase and did they explicitly accept it?",
+      "yes": "check_assembly",
+      "no": "check_assembly_after_objective_fault"
+    },
+    "check_assembly": {
+      "type": "binary",
+      "step": 3,
+      "totalSteps": 5,
+      "citation": "4 kap. 3 §",
+      "question": "Assembly & Installation Check",
+      "description": "Was the defect caused by incorrect installation performed by the seller, or by faulty assembly instructions in the manual?",
+      "yes": "result_defective_assembly",
+      "no": "result_not_defective"
+    },
+    "check_assembly_after_objective_fault": {
+      "type": "binary",
+      "step": 4,
+      "totalSteps": 5,
+      "citation": "4 kap. 3 §",
+      "question": "Assembly & Installation Check",
+      "description": "Was the fault also exacerbated by incorrect installation or faulty manual instructions?",
+      "yes": "check_timeframe_objective",
+      "no": "check_timeframe_objective"
+    },
+    "check_timeframe_objective": {
+      "type": "input_months",
+      "step": 5,
+      "totalSteps": 5,
+      "citation": "4 kap. 14 & 17 §§",
+      "question": "Timeframe & Presumption Period",
+      "description": "How many months have passed since the product was delivered to the consumer?",
+      "next": "evaluate_final_liability"
+    }
+  }
+}
