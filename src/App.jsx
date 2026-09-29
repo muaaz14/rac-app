@@ -1,23 +1,15 @@
 import React, { useState } from "react";
 import rulesData from "./data/rules.json";
 import { translations } from "./data/translations";
-import { 
-  FileText, 
-  RotateCcw, 
-  ArrowLeft, 
-  Bookmark, 
-  CheckCircle2, 
-  AlertTriangle, 
-  X,
-  Globe
-} from "lucide-react";
+import { FileText, RotateCcw, ArrowLeft, Check, AlertCircle, X, Globe, HelpCircle, CheckCircle2, ChevronRight} from "lucide-react";
 
 export default function App() {
-  const [lang, setLang] = useState("sv"); // Default language: Swedish
+  const [lang, setLang] = useState("en");
   const [currentNodeId, setCurrentNodeId] = useState(rulesData.startNode);
   const [historyStack, setHistoryStack] = useState([]);
   const [monthsInput, setMonthsInput] = useState(6);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTeamPopoverOpen, setIsTeamPopoverOpen] = useState(false);
   const [caseData, setCaseData] = useState({
     monthsSinceDelivery: 0,
     grounds: [],
@@ -130,272 +122,255 @@ export default function App() {
     }
   };
 
-  const progressPct = currentNode?.step
-    ? Math.round((currentNode.step / currentNode.totalSteps) * 100)
-    : 100;
-
   const isDefective = caseData.grounds.some((g) => !g.includes("Undantaget") && !g.includes("Exempted"));
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 p-6 md:p-10 font-sans">
-      <div className="max-w-5xl mx-auto">
-        
-        {/* Top Header */}
-        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <div className="flex items-center gap-3">
-            <span className="bg-slate-900 text-white px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wider">
-              {t.statuteBadge}
-            </span>
-            <h1 className="text-2xl font-bold text-slate-900">
-              {t.title}
-            </h1>
-          </div>
+    <div className="min-h-screen bg-[#f2eee5] text-[#1c1c1a] font-sans flex flex-col justify-between antialiased selection:bg-[#1c1c1a] selection:text-white">
+    
+    {/* Ultra-Clean Minimal Top Bar */}
+    <header className="w-full border-b border-[#e0dad0] px-4 py-4 flex items-center justify-between text-xs font-medium text-[#706e68]">
+      {/* Left: Breadcrumb Navigation */}
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2">
+        <span>{t.breadcrumbAct}</span>
+        <span className="text-[#a09d96]">/</span>
+        <span>{t.breadcrumbChapter}</span>
+        <span className="text-[#a09d96]">/</span>
+        <span className="text-[#1c1c1a] font-semibold">
+          {!isTerminal ? (currentNodeT?.citation || currentNode.citation) : t.breadcrumbOutcome}
+        </span>
+      </nav>
 
-          <div className="flex items-center gap-3">
-            {/* Language Switcher Dropdown */}
-            <div className="flex items-center gap-1.5 bg-white border border-slate-300 rounded-lg px-3 py-1.5 shadow-sm">
-              <Globe className="w-4 h-4 text-slate-500" />
-              <select
-                value={lang}
-                onChange={(e) => setLang(e.target.value)}
-                className="bg-transparent text-sm font-medium text-slate-700 cursor-pointer focus:outline-none"
+      {/* Right: Minimal Status & Utilities */}
+      <div className="flex items-center gap-6">
+        <button onClick={() => setIsModalOpen(true)} className="hover:text-[#1c1c1a] transition cursor-pointer">
+          {t.statutoryRefBtn}
+        </button>
+
+        {/* Quiet Language Toggle */}
+        <select value={lang} onChange={(e) => setLang(e.target.value)} className="bg-transparent text-xs font-medium text-[#706e68] hover:text-[#1c1c1a] cursor-pointer focus:outline-none">
+          <option value="en">English</option>
+          <option value="sv">Svenska</option>
+        </select>
+      </div>
+    </header>
+
+    {/* Main Container */}
+    <main className="w-full max-w-2xl mx-auto px-6 py-12 my-auto flex flex-col items-center text-center">
+      {!isTerminal ? (
+        <div className="w-full flex flex-col items-center">
+          {/* Subtle Citation Subhead */}
+          <span className="text-xs uppercase tracking-widest font-mono text-[#8c887f] mb-4">
+            {t.step} {currentNode.step} {t.of} {currentNode.totalSteps}
+          </span>
+
+          {/* Large Focused Question Title */}
+          <h1 className="text-xl sm:text-xl font-medium text-[#1c1c1a] mb-4">
+            {currentNodeT?.question || currentNode.question}
+          </h1>
+
+          {/* Clean Body Text */}
+          <p className="text-[#59564f] text-base leading-relaxed max-w-lg mb-10">
+            {currentNodeT?.description || currentNode.description}
+          </p>
+
+          {/* Binary Action Buttons (Matching image button style) */}
+          {currentNode.type === "binary" && (
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <button
+                onClick={() => handleChoice("yes")}
+                className="px-7 py-3 bg-[#2d2c2a] text-[#f2eee5] text-sm font-medium rounded-md hover:bg-[#1c1c1a] transition shadow-xs cursor-pointer"
               >
-                <option value="sv">🇸🇪 Svenska</option>
-                <option value="en">🇬🇧 English</option>
-              </select>
+                {t.yes}
+              </button>
+              <button
+                onClick={() => handleChoice("no")}
+                className="px-7 py-3 border border-[#b8b3a8] text-[#1c1c1a] text-sm font-medium rounded-md hover:bg-[#e6e1d5] transition cursor-pointer"
+              >
+                {t.no}
+              </button>
             </div>
+          )}
 
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-2 px-3.5 py-2 text-sm font-medium border border-slate-300 rounded-lg bg-white hover:bg-slate-100 transition shadow-sm"
-            >
-              <FileText className="w-4 h-4 text-slate-600" />
-              <span className="hidden sm:inline">{t.statutoryRefBtn}</span>
-            </button>
-            
-            <button
-              onClick={resetAssessment}
-              className="flex items-center gap-2 px-3.5 py-2 text-sm font-medium border border-slate-300 rounded-lg bg-white hover:bg-slate-100 transition shadow-sm"
-            >
-              <RotateCcw className="w-4 h-4 text-slate-600" />
-              <span className="hidden sm:inline">{t.restartBtn}</span>
-            </button>
-          </div>
-        </header>
-
-        {/* Main Grid */}
-        <main className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          {/* Main Assessment Panel */}
-          <section className="md:col-span-2 bg-white rounded-xl p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col justify-between">
-            <div>
-              {/* Progress Bar */}
-              <div className="mb-6">
-                <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                  <div
-                    className="bg-blue-600 h-full transition-all duration-300"
-                    style={{ width: `${progressPct}%` }}
-                  ></div>
-                </div>
-                <div className="flex justify-between text-xs text-slate-500 mt-2 font-medium">
-                  <span>{currentNode?.step ? `${t.step} ${currentNode.step} ${t.of} ${currentNode.totalSteps}` : t.completed}</span>
-                  <span>{progressPct}% {t.completed}</span>
-                </div>
+          {/* Number Input Step */}
+          {currentNode.type === "input_months" && (
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex items-center gap-3">
+                <input
+                  type="number"
+                  min="0"
+                  max="60"
+                  value={monthsInput}
+                  onChange={(e) => setMonthsInput(parseInt(e.target.value, 10) || 0)}
+                  className="w-24 px-3 py-2 bg-white border border-[#b8b3a8] rounded text-center text-base text-[#1c1c1a] focus:outline-none"
+                />
+                <span className="text-sm text-[#706e68]">{t.monthsLabel}</span>
               </div>
-
-              {/* Dynamic Question Screen */}
-              {!isTerminal ? (
-                <div>
-                  <span className="inline-block bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-md mb-3">
-                    {currentNodeT?.citation || currentNode.citation}
-                  </span>
-                  <h2 className="text-xl font-bold text-slate-900 mb-2">
-                    {currentNodeT?.question || currentNode.question}
-                  </h2>
-                  <p className="text-slate-600 text-sm mb-6">
-                    {currentNodeT?.description || currentNode.description}
-                  </p>
-
-                  {currentNode.type === "binary" && (
-                    <div className="flex gap-4">
-                      <button
-                        onClick={() => handleChoice("yes")}
-                        className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition"
-                      >
-                        {t.yes}
-                      </button>
-                      <button
-                        onClick={() => handleChoice("no")}
-                        className="px-6 py-2.5 bg-slate-100 text-slate-700 font-medium rounded-lg hover:bg-slate-200 transition"
-                      >
-                        {t.no}
-                      </button>
-                    </div>
-                  )}
-
-                  {currentNode.type === "input_months" && (
-                    <div>
-                      <div className="mb-6">
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">
-                          {t.monthsLabel}
-                        </label>
-                        <input
-                          type="number"
-                          min="0"
-                          max="60"
-                          value={monthsInput}
-                          onChange={(e) => setMonthsInput(parseInt(e.target.value, 10) || 0)}
-                          className="w-32 px-3 py-2 border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      </div>
-                      <button
-                        onClick={handleMonthsSubmit}
-                        className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition"
-                      >
-                        {t.continue}
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                /* Diagnostic Result Screen */
-                <div>
-                  <div
-                    className={`p-5 rounded-lg border mb-6 ${
-                      isDefective
-                        ? "bg-red-50 border-red-200 text-red-900"
-                        : "bg-emerald-50 border-emerald-200 text-emerald-900"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      {isDefective ? (
-                        <AlertTriangle className="w-6 h-6 text-red-600" />
-                      ) : (
-                        <CheckCircle2 className="w-6 h-6 text-emerald-600" />
-                      )}
-                      <h2 className="text-lg font-bold">
-                        {isDefective ? t.statusDefective : t.statusNotDefective}
-                      </h2>
-                    </div>
-                    <p className="text-sm font-medium">
-                      <strong>{t.sellerLiabilityHeader}</strong>{" "}
-                      {caseData.sellerLiable ? t.sellerIsLiable : t.consumerBurden}
-                    </p>
-                  </div>
-
-                  <h3 className="font-semibold text-slate-900 mb-3 text-sm">
-                    {t.legalFindingsHeader}
-                  </h3>
-                  <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600">
-                    {caseData.grounds.length > 0 ? (
-                      caseData.grounds.map((ground, idx) => <li key={idx}>{ground}</li>)
-                    ) : (
-                      <li>{t.noDefectFound}</li>
-                    )}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            {/* Back Button */}
-            <div className="mt-8 pt-4 border-t border-slate-100">
-              {historyStack.length > 0 && (
-                <button
-                  onClick={goBack}
-                  className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800 transition"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  {t.previousQuestion}
-                </button>
-              )}
-            </div>
-          </section>
-
-          {/* Sidebar Presets */}
-          <aside className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
-            <div className="flex items-center gap-2 mb-2 text-slate-900 font-bold">
-              <Bookmark className="w-4 h-4 text-blue-600" />
-              <h3>{t.presetsHeader}</h3>
-            </div>
-            <p className="text-xs text-slate-500 mb-4">
-              {t.presetsSubtitle}
-            </p>
-
-            <div className="space-y-3">
               <button
-                onClick={() => applyPreset("presetA")}
-                className="w-full text-left p-3 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 transition"
+                onClick={handleMonthsSubmit}
+                className="px-7 py-3 bg-[#2d2c2a] text-[#f2eee5] text-sm font-medium rounded-md hover:bg-[#1c1c1a] transition cursor-pointer"
               >
-                <strong className="block text-xs text-slate-800">
-                  {t.scenarioATitle}
-                </strong>
-                <span className="text-[11px] text-slate-500">{t.scenarioASub}</span>
-              </button>
-
-              <button
-                onClick={() => applyPreset("presetB")}
-                className="w-full text-left p-3 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 transition"
-              >
-                <strong className="block text-xs text-slate-800">
-                  {t.scenarioBTitle}
-                </strong>
-                <span className="text-[11px] text-slate-500">{t.scenarioBSub}</span>
-              </button>
-
-              <button
-                onClick={() => applyPreset("presetC")}
-                className="w-full text-left p-3 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 transition"
-              >
-                <strong className="block text-xs text-slate-800">
-                  {t.scenarioCTitle}
-                </strong>
-                <span className="text-[11px] text-slate-500">{t.scenarioCSub}</span>
+                {t.continue}
               </button>
             </div>
-          </aside>
-        </main>
+          )}
+        </div>
+      ) : (
+        /* Minimal Diagnostic Result View */
+        <div className="w-full flex flex-col items-center text-center">
+          <span className="text-xs uppercase tracking-widest font-mono text-[#8c887f] mb-3">
+            {t.legalFindingsHeader}
+          </span>
+
+          <h2 className={`font-serif text-3xl font-bold mb-3 ${isDefective ? "text-[#8b261d]" : "text-[#1e5233]"}`}>
+            {isDefective ? t.statusDefective : t.statusNotDefective}
+          </h2>
+
+          <p className="text-sm text-[#59564f] mb-8">
+            <strong>{t.sellerLiabilityHeader}</strong> {caseData.sellerLiable ? t.sellerIsLiable : t.consumerBurden}
+          </p>
+
+          <div className="w-full bg-[#faf7f0] border border-[#dcd7cb] rounded-lg p-6 text-left mb-8 space-y-2">
+            {caseData.grounds.map((ground, idx) => (
+              <p key={idx} className="text-xs text-[#42403b] leading-relaxed flex gap-2">
+                <span className="text-[#8c887f]">•</span>
+                <span>{ground}</span>
+              </p>
+            ))}
+          </div>
+
+          <button
+            onClick={resetAssessment}
+            className="px-6 py-2.5 border border-[#b8b3a8] text-[#1c1c1a] text-xs font-medium rounded hover:bg-[#e6e1d5] transition"
+          >
+            {t.restartBtn}
+          </button>
+        </div>
+      )}
+
+      {/* Subtle Back Button */}
+      {historyStack.length > 0 && !isTerminal && (
+        <button
+          onClick={goBack}
+          className="mt-12 text-xs text-[#8c887f] hover:text-[#1c1c1a] transition underline underline-offset-4 cursor-pointer"
+        >
+          {t.previousQuestion}
+        </button>
+      )}
+    </main>
+
+    {/* Minimalist Bottom Footer Bar */}
+    <footer className="w-full border-t border-[#e0dad0] px-4 py-4 flex flex-col sm:flex-row justify-between items-center text-xs text-[#706e68] gap-4">
+      <div className="flex flex-col flex-wrap items-start gap-1">
+        <span className="font-semibold text-[#1c1c1a]">{t.presetsHeader}:</span>
+        <div className="flex flex-row gap-6">
+          <button onClick={() => applyPreset("presetA")} className="hover:text-[#1c1c1a] transition cursor-pointer">
+            A: Refrigerator (§ 1 vs 6)
+          </button>
+          <button onClick={() => applyPreset("presetB")} className="hover:text-[#1c1c1a] transition cursor-pointer">
+            B: Bookshelf (§ 3 Assembly)
+          </button>
+          <button onClick={() => applyPreset("presetC")} className="hover:text-[#1c1c1a] transition cursor-pointer">
+            C: Bicycle (§ 17 Presumption)
+          </button>
+        </div>
+        
       </div>
 
-      {/* Statutory References Modal */}
+      {/* Right Side Footer: Credits with Pop-over */}
+      <div className="relative flex flex-col gap-1 text-left items-start pr-8">
+        <span>{t.broughtToYouBy}</span>
+        
+        <button
+          onClick={() => setIsTeamPopoverOpen(!isTeamPopoverOpen)}
+          className="font-semibold text-[#1c1c1a] hover:underline underline-offset-2 cursor-pointer transition"
+        >
+          {t.teamGroupLabel}
+        </button>
+
+        {/* Inline Floating Pop-over */}
+        {isTeamPopoverOpen && (
+          <div className="absolute right-0 bottom-full mb-3 w-56 bg-[#faf9f6] border border-[#e5e2db] rounded-lg p-4 shadow-md z-40 text-left animate-in fade-in slide-in-from-bottom-2 duration-150">
+            
+            {/* Pop-over Header */}
+            <div className="flex justify-between items-center mb-2 pb-1.5 border-b border-[#e5e2db]">
+              <span className="font-serif font-bold text-xs text-[#1c1c1a]">
+                {t.teamGroupLabel}
+              </span>
+              <button
+                onClick={() => setIsTeamPopoverOpen(false)}
+                className="text-[#706e68] hover:text-[#1c1c1a] transition cursor-pointer text-xs"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Student List */}
+            <ul className="space-y-1.5 text-xs font-medium text-[#2c3036]">
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2b5883]"></span> Amelia
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2b5883]"></span> Amro
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2b5883]"></span> Felicia
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2b5883]"></span> Mortiz
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2b5883]"></span> Muaaz
+              </li>
+            </ul>
+
+            {/* Subtle Pop-over Pointer Arrow */}
+            <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-[#faf9f6] border-b border-r border-[#e5e2db] rotate-45"></div>
+          </div>
+        )}
+      </div>
+    </footer>
+
+      {/* Statutory Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center p-4 z-50">
-          <div className="bg-white max-w-xl w-full max-h-[80vh] overflow-y-auto rounded-xl p-6 shadow-xl">
-            <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-200">
-              <h2 className="text-lg font-bold text-slate-900">
-                Konsumentköplag (2022:260) — 4 kap.
+        <div className="fixed inset-0 bg-[#1a1f26]/40 backdrop-blur-xs flex justify-center items-center p-4 z-50">
+          <div className="bg-white max-w-xl w-full max-h-[80vh] overflow-y-auto rounded-lg p-6 border border-[#e5e2db] shadow-lg">
+            <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#e5e2db]">
+              <h2 className="font-serif font-bold text-base text-[#1a1f26]">
+                {t.modalTitle}
               </h2>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 transition"
+                className="text-[#6b7280] hover:text-[#1a1f26] transition"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
-            <div className="space-y-4 text-sm text-slate-600">
-              <article className="border-b pb-3">
-                <h3 className="font-semibold text-slate-900">4 kap. 1 § — Avtalsenlighet (Subjective)</h3>
-                <p>Varan ska i fråga om art, mängd, kvalitet, andra egenskaper och förpackning stämma överens med vad som följer av avtalet.</p>
+            <div className="space-y-4 text-xs text-[#4b5563] leading-relaxed">
+              <article className="border-b border-[#f0ede6] pb-3">
+                <h3 className="font-semibold text-[#1a1f26] mb-1">{t.modalSections.s1Title}</h3>
+                <p>{t.modalSections.s1Text}</p>
               </article>
-              <article className="border-b pb-3">
-                <h3 className="font-semibold text-slate-900">4 kap. 2 § — Objektiva krav (Objective)</h3>
-                <p>Varan ska vara ämnad för de ändamål för vilka motsvarande varor normalt används, ha den hållbarhet och funktion som köparen med fog kan förvänta sig.</p>
+              <article className="border-b border-[#f0ede6] pb-3">
+                <h3 className="font-semibold text-[#1a1f26] mb-1">{t.modalSections.s2Title}</h3>
+                <p>{t.modalSections.s2Text}</p>
               </article>
-              <article className="border-b pb-3">
-                <h3 className="font-semibold text-slate-900">4 kap. 3 § — Installation och montering</h3>
-                <p>Fel finns även om varan installerats av säljaren eller om felaktiga monteringsanvisningar medföljt.</p>
+              <article className="border-b border-[#f0ede6] pb-3">
+                <h3 className="font-semibold text-[#1a1f26] mb-1">{t.modalSections.s3Title}</h3>
+                <p>{t.modalSections.s3Text}</p>
               </article>
-              <article className="border-b pb-3">
-                <h3 className="font-semibold text-slate-900">4 kap. 6 § — Undantag vid särskilt godkännande</h3>
-                <p>Säljaren svarar inte för en avvikelse om köparen uttryckligen och särskilt informerats och godkänt den vid köpet.</p>
+              <article className="border-b border-[#f0ede6] pb-3">
+                <h3 className="font-semibold text-[#1a1f26] mb-1">{t.modalSections.s6Title}</h3>
+                <p>{t.modalSections.s6Text}</p>
               </article>
               <article>
-                <h3 className="font-semibold text-slate-900">4 kap. 14 & 17 §§ — Tidpunkt och presumtion</h3>
-                <p>Säljaren svarar för fel som funnits vid avlämnandet. Fel som visar visar sig inom två år (24 månader) presumeras ha funnits vid avlämnandet.</p>
+                <h3 className="font-semibold text-[#1a1f26] mb-1">{t.modalSections.s14_17Title}</h3>
+                <p>{t.modalSections.s14_17Text}</p>
               </article>
             </div>
           </div>
         </div>
       )}
+
     </div>
   );
 }
