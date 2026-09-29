@@ -22,20 +22,17 @@ export default function App() {
   const isTerminal = currentNodeId.startsWith("result_");
 
   const handleChoice = (answer) => {
-    setHistoryStack([...historyStack, { nodeId: currentNodeId, caseDataSnapshot: { ...caseData, grounds: [...caseData.grounds] } }]);
+    setHistoryStack([
+      ...historyStack, 
+      { nodeId: currentNodeId, caseDataSnapshot: { ...caseData, grounds: [...caseData.grounds] } }
+    ]);
 
     const updatedGrounds = [...caseData.grounds];
-    
-    if (currentNodeT && currentNodeT.groundText) {
-      if (currentNodeId === "check_subjective" && answer === "yes") {
-        updatedGrounds.push(currentNodeT.groundText);
-      } else if (currentNodeId === "check_objective" && answer === "yes") {
-        updatedGrounds.push(currentNodeT.groundText);
-      } else if (currentNodeId === "check_explicit_agreement" && answer === "yes") {
-        updatedGrounds.push(currentNodeT.groundText);
-      } else if (currentNodeId.includes("assembly") && answer === "yes") {
-        updatedGrounds.push(currentNodeT.groundText);
-      }
+  
+    // Generic RaC Interpreter: Dynamically fetch ground text from schema based on user choice
+    const groundKey = answer === "yes" ? "onYesGround" : "onNoGround";
+    if (currentNodeT && currentNodeT[groundKey]) {
+      updatedGrounds.push(currentNodeT[groundKey]);
     }
 
     setCaseData((prev) => ({ ...prev, grounds: updatedGrounds }));
@@ -93,7 +90,7 @@ export default function App() {
         monthsSinceDelivery: 14,
         sellerLiable: true,
         grounds: [
-          t.nodes.check_objective.groundText,
+          t.nodes.check_objective.onYesGround,
           lang === "sv" 
             ? "Inom 2-års presumtionsregel (14 månader). Felet presumeras ha funnits vid avlämnandet (4 kap. 17 §)."
             : "Within 2-year presumption window (14 months). Defect is presumed present at delivery (4 kap. 17 §)."
@@ -104,7 +101,7 @@ export default function App() {
       setCaseData({
         monthsSinceDelivery: 0,
         sellerLiable: true,
-        grounds: [t.nodes.check_assembly.groundText]
+        grounds: [t.nodes.check_assembly.onYesGround]
       });
       setCurrentNodeId("result_defective_assembly");
     } else if (presetType === "presetC") {
@@ -112,7 +109,7 @@ export default function App() {
         monthsSinceDelivery: 18,
         sellerLiable: true,
         grounds: [
-          t.nodes.check_objective.groundText,
+          t.nodes.check_objective.onYesGround,
           lang === "sv"
             ? "Inom 2-års presumtionsregel (18 månader). Felet presumeras ha funnits vid avlämnandet (4 kap. 17 §)."
             : "Within 2-year presumption window (18 months). Defect is presumed present at delivery (4 kap. 17 §)."

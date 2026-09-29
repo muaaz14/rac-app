@@ -61,25 +61,31 @@ export const translations = {
         citation: "4 kap. 1 §",
         question: "Subjektivt kravtest (Avtalsenlighet)",
         description: "Avviker varan i fråga om art, mängd, kvalitet, förpackning eller beskrivning från vad som specifikt följer av avtalet eller kvittot?",
-        groundText: "Brister i subjektiva krav enligt 4 kap. 1 § (Stämmer inte överens med avtalet)."
+        onYesGround: "Brister i subjektiva krav enligt 4 kap. 1 § (Stämmer inte överens med avtalet)."
       },
       check_objective: {
         citation: "4 kap. 2 §",
         question: "Objektivt kravtest",
         description: "Minskar varans hållbarhet, säkerhet eller funktion i förhållande till vad köparen med fog kunde förvänta sig för normal användning?",
-        groundText: "Brister i objektiva krav enligt 4 kap. 2 § (Avviker från normal hållbarhet/funktion)."
+        onYesGround: "Brister i objektiva krav enligt 4 kap. 2 § (Avviker från normal hållbarhet/funktion)."
       },
       check_explicit_agreement: {
         citation: "4 kap. 6 §",
         question: "Särskilt godkännande av avvikelse",
         description: "Informerades köparen uttryckligen om just denna specifika avvikelse före köpet och godkände den särskilt?",
-        groundText: "Undantaget enligt 4 kap. 6 § gäller då köparen uttryckligen godkänt avvikelsen."
+        onYesGround: "Undantaget enligt 4 kap. 6 § gäller då köparen uttryckligen godkänt avvikelsen."
       },
       check_assembly: {
         citation: "4 kap. 3 §",
         question: "Installation och montering",
         description: "Orsakades felet av att säljaren installerat varan felaktigt, eller p.g.a. felaktiga monteringsanvisningar i manualen?",
-        groundText: "Felaktig enligt 4 kap. 3 § p.g.a. brister i installation eller monteringsanvisning."
+        onYesGround: "Felaktig enligt 4 kap. 3 § p.g.a. brister i installation eller monteringsanvisning."
+      },
+      check_assembly_after_objective_fault: {
+        citation: "4 kap. 3 §",
+        question: "Installation och montering",
+        description: "Förvärrades felet även av felaktig installation eller bristfälliga monteringsanvisningar?",
+        onYesGround: "Felaktig enligt 4 kap. 3 § p.g.a. brister i installation eller monteringsanvisning."
       },
       check_timeframe_objective: {
         citation: "4 kap. 14 & 17 §§",
@@ -155,34 +161,46 @@ export const translations = {
     // Questions & Nodes
     nodes: {
       check_subjective: {
-        citation: "Chapter 4, Section 1",
+        citation: "4 kap. 1 §",
         question: "Subjective Requirement Check",
         description: "Does the good fail to match the quantity, quality, packaging, or description explicitly agreed upon in the contract or sales receipt?",
-        groundText: "Fails subjective requirement under Chapter 4, Section 1 (Does not match agreed spec/contract)."
+        onYesGround: "Fails subjective requirement under 4 kap. 1 § (Does not match agreed spec/contract)."
       },
       check_objective: {
-        citation: "Chapter 4, Section 2",
+        citation: "4 kap. 2 §",
         question: "Objective Requirement Check",
         description: "Does the product fail normal expectations for fitness for standard purpose, durability, safety, or sample/model comparison?",
-        groundText: "Fails objective requirements under Chapter 4, Section 2 (Durability, fitness, or safety)."
+        onYesGround: "Fails objective requirements under 4 kap. 2 § (Durability, fitness, or safety)."
       },
       check_explicit_agreement: {
-        citation: "Chapter 4, Section 6",
+        citation: "4 kap. 6 §",
         question: "Explicit Pre-Sale Fault Disclaimer",
         description: "Was the consumer explicitly informed of this specific fault prior to purchase and did they explicitly accept it?",
-        groundText: "Exempted under Chapter 4, Section 6 due to explicit pre-sale agreement on known fault."
+        onYesGround: "Exempted under 4 kap. 6 § due to explicit pre-sale agreement on known fault."
       },
       check_assembly: {
-        citation: "Chapter 4, Section 3",
+        citation: "4 kap. 3 §",
         question: "Assembly & Installation Check",
         description: "Was the defect caused by incorrect installation performed by the seller, or by faulty assembly instructions in the manual?",
-        groundText: "Defective under Chapter 4, Section 3 due to faulty installation or assembly manual."
+        onYesGround: "Defective under 4 kap. 3 § due to faulty installation or assembly manual."
+      },
+      check_assembly_after_objective_fault: {
+        citation: "4 kap. 3 §",
+        question: "Assembly & Installation Check",
+        description: "Was the fault also exacerbated by incorrect installation or faulty manual instructions?",
+        onYesGround: "Defective under 4 kap. 3 § due to faulty installation or assembly manual."
       },
       check_timeframe_objective: {
-        citation: "Chapter 4, Sections 14 & 17",
+        citation: "4 kap. 14 & 17 §§",
         question: "Timeframe & Presumption Period",
         description: "How many months have passed since the product was delivered to the consumer?"
-      }
+      },
+      check_public_statements: {
+        citation: "4 kap. 5 §",
+        question: "Marknadsföring och offentliga utfästelser",
+        description: "Avviker varan från uppgifter om dess egenskaper eller användning som lämnats vid marknadsföringen eller på förpackningen?",
+        onYesGround: "Felaktig enligt 4 kap. 5 § p.g.a. avvikelse från marknadsföring eller förpackningsuppgifter."
+      },
     },
 
     // src/data/translations.js (Inside 'en' object)
