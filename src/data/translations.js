@@ -23,7 +23,7 @@ export const translations = {
     // Header & Meta
     statuteBadge: "SFS 2022:260",
     title: "Konsumentköplag Utvärderare",
-    statutoryRefBtn: "Lagtextreferenser",
+    statutoryRefBtn: "Juridiska hänvisningar",
     restartBtn: "Starta nytt test",
     step: "Steg",
     completed: "Slutfört",
@@ -126,7 +126,7 @@ export const translations = {
     // Header & Meta
     statuteBadge: "SFS 2022:260",
     title: "Consumer Sales Act Evaluator",
-    statutoryRefBtn: "Statutory References",
+    statutoryRefBtn: "Legal Citations",
     restartBtn: "Start New Assessment",
     step: "Step",
     completed: "Completed",

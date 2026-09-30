@@ -218,7 +218,7 @@ export default function App() {
             {t.legalFindingsHeader}
           </span>
 
-          <h2 className={`font-serif text-3xl font-bold mb-3 ${isDefective ? "text-[#8b261d]" : "text-[#1e5233]"}`}>
+          <h2 className={`text-3xl font-bold mb-3 ${isDefective ? "text-[#8b261d]" : "text-[#1e5233]"}`}>
             {isDefective ? t.statusDefective : t.statusNotDefective}
           </h2>
 
@@ -290,7 +290,7 @@ export default function App() {
             
             {/* Pop-over Header */}
             <div className="flex justify-between items-center mb-2 pb-1.5 border-b border-[#e5e2db]">
-              <span className="font-serif font-bold text-xs text-[#1c1c1a]">
+              <span className="font-bold text-xs text-[#1c1c1a]">
                 {t.teamGroupLabel}
               </span>
               <button
@@ -332,7 +332,7 @@ export default function App() {
         <div className="fixed inset-0 bg-[#1a1f26]/40 backdrop-blur-xs flex justify-center items-center p-4 z-50">
           <div className="bg-white max-w-xl w-full max-h-[80vh] overflow-y-auto rounded-lg p-6 border border-[#e5e2db] shadow-lg">
             <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#e5e2db]">
-              <h2 className="font-serif font-bold text-base text-[#1a1f26]">
+              <h2 className="font-bold text-base text-[#1a1f26]">
                 {t.modalTitle}
               </h2>
               <button
