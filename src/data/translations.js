@@ -152,54 +152,54 @@ export const translations = {
     presetsHeader: "Presets for Team Demo",
     presetsSubtitle: "Quickly test statutory scenarios with your group:",
     scenarioATitle: "Scenario A: Agreed Fault vs Hidden Defect",
-    scenarioASub: "4 kap. 1 § vs 6 § (Refrigerator)",
+    scenarioASub: "Chapter 4, Section 1 vs Section 6 (Refrigerator)",
     scenarioBTitle: "Scenario B: Bad Assembly Manual",
-    scenarioBSub: "4 kap. 3 § (Bookshelf instruction)",
+    scenarioBSub: "Chapter 4, Section 3 (Bookshelf instruction)",
     scenarioCTitle: "Scenario C: 2-Year Presumption Rule",
-    scenarioCSub: "4 kap. 14 & 17 §§ (Bicycle hub)",
+    scenarioCSub: "Chapter 4, Sections 14 & 17 (Bicycle hub)",
 
     // Questions & Nodes
     nodes: {
       check_subjective: {
-        citation: "4 kap. 1 §",
+        citation: "Chapter 4, Section 1",
         question: "Subjective Requirement Check",
         description: "Does the good fail to match the quantity, quality, packaging, or description explicitly agreed upon in the contract or sales receipt?",
-        onYesGround: "Fails subjective requirement under 4 kap. 1 § (Does not match agreed spec/contract)."
+        onYesGround: "Fails subjective requirement under Chapter 4, Section 1 (Does not match agreed spec/contract)."
       },
       check_objective: {
-        citation: "4 kap. 2 §",
+        citation: "Chapter 4, Section 2",
         question: "Objective Requirement Check",
         description: "Does the product fail normal expectations for fitness for standard purpose, durability, safety, or sample/model comparison?",
-        onYesGround: "Fails objective requirements under 4 kap. 2 § (Durability, fitness, or safety)."
+        onYesGround: "Fails objective requirements under Chapter 4, Section 2 (Durability, fitness, or safety)."
       },
       check_explicit_agreement: {
-        citation: "4 kap. 6 §",
+        citation: "Chapter 4, Section 6",
         question: "Explicit Pre-Sale Fault Disclaimer",
         description: "Was the consumer explicitly informed of this specific fault prior to purchase and did they explicitly accept it?",
-        onYesGround: "Exempted under 4 kap. 6 § due to explicit pre-sale agreement on known fault."
+        onYesGround: "Exempted under Chapter 4, Section 6 due to explicit pre-sale agreement on known fault."
       },
       check_assembly: {
-        citation: "4 kap. 3 §",
+        citation: "Chapter 4, Section 3",
         question: "Assembly & Installation Check",
         description: "Was the defect caused by incorrect installation performed by the seller, or by faulty assembly instructions in the manual?",
-        onYesGround: "Defective under 4 kap. 3 § due to faulty installation or assembly manual."
+        onYesGround: "Defective under Chapter 4, Section 3 due to faulty installation or assembly manual."
       },
       check_assembly_after_objective_fault: {
-        citation: "4 kap. 3 §",
+        citation: "Chapter 4, Section 3",
         question: "Assembly & Installation Check",
         description: "Was the fault also exacerbated by incorrect installation or faulty manual instructions?",
-        onYesGround: "Defective under 4 kap. 3 § due to faulty installation or assembly manual."
+        onYesGround: "Defective under Chapter 4, Section 3 due to faulty installation or assembly manual."
       },
       check_timeframe_objective: {
-        citation: "4 kap. 14 & 17 §§",
+        citation: "Chapter 4, Sections 14 & 17",
         question: "Timeframe & Presumption Period",
         description: "How many months have passed since the product was delivered to the consumer?"
       },
       check_public_statements: {
-        citation: "4 kap. 5 §",
-        question: "Marknadsföring och offentliga utfästelser",
-        description: "Avviker varan från uppgifter om dess egenskaper eller användning som lämnats vid marknadsföringen eller på förpackningen?",
-        onYesGround: "Felaktig enligt 4 kap. 5 § p.g.a. avvikelse från marknadsföring eller förpackningsuppgifter."
+        citation: "Chapter 4, Section 5",
+        question: "Marketing and Public Statements",
+        description: "Does the product deviate from the information provided about its properties or usage during marketing or on the packaging?",
+        onYesGround: "Misleading under Chapter 4, Section 5 due to deviation from marketing or packaging information."
       },
     },
 
