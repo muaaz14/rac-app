@@ -1,241 +1,60 @@
 {
-  "Q1": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "is_consumer" },
-        true
-      ]
+  "startNode": "check_subjective",
+  "nodes": {
+    "check_subjective": {
+      "type": "binary",
+      "step": 1,
+      "totalSteps": 6,
+      "citation": "4 kap. 1 §",
+      "yes": "result_defective_subjective",
+      "no": "check_objective"
     },
-    "true": "Q2",
-    "false": "OUT_NotApplicable"
-  },
-
-  "Q2": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "is_trader_or_intermediary" },
-        true
-      ]
+    "check_objective": {
+      "type": "binary",
+      "step": 2,
+      "totalSteps": 6,
+      "citation": "4 kap. 2 §",
+      "yes": "check_explicit_agreement",
+      "no": "check_public_statements"
     },
-    "true": "Q3",
-    "false": "OUT_NotApplicable"
-  },
-
-  "Q3": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "is_goods" },
-        true
-      ]
+    "check_public_statements": {
+      "type": "binary",
+      "step": 3,
+      "totalSteps": 6,
+      "citation": "4 kap. 5 §",
+      "yes": "check_explicit_agreement",
+      "no": "check_assembly"
     },
-    "true": "Q4",
-    "false": "OUT_NotApplicable"
-  },
-
-  "Q4": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "is_exempt" },
-        false
-      ]
+    "check_explicit_agreement": {
+      "type": "binary",
+      "step": 4,
+      "totalSteps": 6,
+      "citation": "4 kap. 6 §",
+      "yes": "check_assembly",
+      "no": "check_assembly_after_objective_fault"
     },
-    "true": "Q5",
-    "false": "OUT_NotApplicable"
-  },
-
-  "Q5": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "within_temporal_scope" },
-        true
-      ]
+    "check_assembly": {
+      "type": "binary",
+      "step": 5,
+      "totalSteps": 6,
+      "citation": "4 kap. 3 §",
+      "yes": "result_defective_assembly",
+      "no": "result_not_defective"
     },
-    "true": "Q6",
-    "false": "OUT_NotApplicable"
-  },
-
-  "Q6": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "safety_issue" },
-        true
-      ]
+    "check_assembly_after_objective_fault": {
+      "type": "binary",
+      "step": 5,
+      "totalSteps": 6,
+      "citation": "4 kap. 3 §",
+      "yes": "check_timeframe_objective",
+      "no": "check_timeframe_objective"
     },
-    "true": "OUT_Defective",
-    "false": "Q7"
-  },
-
-  "Q7": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "third_party_rights" },
-        false
-      ]
-    },
-    "true": "Q8",
-    "false": "OUT_Defective"
-  },
-
-  "Q8": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "safety_information_provided" },
-        true
-      ]
-    },
-    "true": "Q9",
-    "false": "OUT_Defective"
-  },
-
-  "Q9": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "information_requirements_met" },
-        true
-      ]
-    },
-    "true": "Q14",
-    "false": "Q10"
-  },
-
-  "Q10": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "missing_information_affects_sale" },
-        false
-      ]
-    },
-    "true": "Q14",
-    "false": "Q11"
-  },
-
-  "Q11": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "information_corrected" },
-        true
-      ]
-    },
-    "true": "OUT_NotDefective",
-    "false": "Q12"
-  },
-
-  "Q12": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "information_given_by_third_party" },
-        true
-      ]
-    },
-    "true": "Q13",
-    "false": "OUT_Defective"
-  },
-
-  "Q13": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "seller_knew_or_should_have_known" },
-        true
-      ]
-    },
-    "true": "OUT_Defective",
-    "false": "OUT_NotDefective"
-  },
-
-  "Q14": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "agreed_requirements_met" },
-        true
-      ]
-    },
-    "true": "Q15",
-    "false": "Q19"
-  },
-
-  "Q15": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "objective_requirements_met" },
-        true
-      ]
-    },
-    "true": "Q16",
-    "false": "Q19"
-  },
-
-  "Q16": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "defect_caused_by_installation" },
-        true
-      ]
-    },
-    "true": "Q17",
-    "false": "OUT_NotDefective"
-  },
-
-  "Q17": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "installed_by_seller_or_representative" },
-        true
-      ]
-    },
-    "true": "OUT_Defective",
-    "false": "Q18"
-  },
-
-  "Q18": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "faulty_installation_due_to_instructions" },
-        true
-      ]
-    },
-    "true": "OUT_Defective",
-    "false": "OUT_NotDefective"
-  },
-
-  "Q19": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "consumer_informed_of_deviation" },
-        true
-      ]
-    },
-    "true": "Q20",
-    "false": "OUT_Defective"
-  },
-
-  "Q20": {
-    "type": "decision",
-    "test": {
-      "==": [
-        { "var": "consumer_approved_deviation" },
-        true
-      ]
-    },
-    "true": "PLACEHOLDER_Q20_YES",
-    "false": "OUT_Defective"
+    "check_timeframe_objective": {
+      "type": "input_months",
+      "step": 6,
+      "totalSteps": 6,
+      "citation": "4 kap. 14 & 17 §§",
+      "next": "evaluate_final_liability"
+    }
   }
 }
