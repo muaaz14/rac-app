@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import rulesData from "./data/rules.json";
-import { translations } from "./data/translations_1.js";
+import { translations } from "./data/translation.js";
 import { X } from "lucide-react";
 
 export default function App() {
