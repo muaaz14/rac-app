@@ -1,60 +1,84 @@
 {
-  "startNode": "check_subjective",
+  "startNode": "Q1",
   "nodes": {
-    "check_subjective": {
-      "type": "binary",
-      "step": 1,
-      "totalSteps": 6,
-      "citation": "4 kap. 1 §",
-      "yes": "result_defective_subjective",
-      "no": "check_objective"
+    "Q1": {
+      "type": "decision",
+      "stage": "Scope & Conformity",
+      "citation": "Chapter 4, Section 1",
+      "statuteText": "The goods must in terms of type, quantity, quality, other properties, and packaging conform to what follows from the contract.",
+      "question": "Subjective Requirement Check",
+      "description": "Does the good fail to match the quantity, quality, packaging, or description explicitly agreed upon in the contract or sales receipt?",
+      "onTrueGround": "Defective under Chapter 4, Section 1 — Goods fail to conform with agreed contractual terms.",
+      "true": "OUT_Defective",
+      "false": "Q2"
     },
-    "check_objective": {
-      "type": "binary",
-      "step": 2,
-      "totalSteps": 6,
-      "citation": "4 kap. 2 §",
-      "yes": "check_explicit_agreement",
-      "no": "check_public_statements"
+    "Q2": {
+      "type": "decision",
+      "stage": "Objective Quality",
+      "citation": "Chapter 4, Section 2",
+      "statuteText": "The goods must be fit for the purposes for which corresponding goods are normally used, and possess the durability and functionality the buyer can reasonably expect.",
+      "question": "Objective Requirement Check",
+      "description": "Does the product fail normal expectations for fitness for standard purpose, durability, safety, or sample/model comparison?",
+      "onTrueGround": "Defective under Chapter 4, Section 2 — Goods deviate from objective durability or standard fitness expectations.",
+      "true": "Q4",
+      "false": "Q3"
     },
-    "check_public_statements": {
-      "type": "binary",
-      "step": 3,
-      "totalSteps": 6,
-      "citation": "4 kap. 5 §",
-      "yes": "check_explicit_agreement",
-      "no": "check_assembly"
+    "Q3": {
+      "type": "decision",
+      "stage": "Public Statements",
+      "citation": "Chapter 4, Section 5",
+      "statuteText": "Goods are defective if they fail to conform to claims made in advertising, on packaging, or in public statements by the seller or manufacturer.",
+      "question": "Marketing & Public Statements",
+      "description": "Does the product fail to conform to specific claims made in marketing, on packaging, or in public statements by the seller or manufacturer?",
+      "onTrueGround": "Defective under Chapter 4, Section 5 — Goods fail to match claims made in marketing or packaging.",
+      "true": "Q4",
+      "false": "Q5"
     },
-    "check_explicit_agreement": {
-      "type": "binary",
-      "step": 4,
-      "totalSteps": 6,
-      "citation": "4 kap. 6 §",
-      "yes": "check_assembly",
-      "no": "check_assembly_after_objective_fault"
+    "Q4": {
+      "type": "decision",
+      "stage": "Seller Disclaimers",
+      "citation": "Chapter 4, Section 6",
+      "statuteText": "The seller is not liable for a deviation if the buyer was explicitly informed of the specific deviation and accepted it prior to purchase.",
+      "question": "Explicit Pre-Sale Fault Disclaimer",
+      "description": "Was the consumer explicitly informed of this specific fault prior to purchase and did they explicitly accept it?",
+      "onTrueGround": "Exempted under Chapter 4, Section 6 — Consumer explicitly approved the specific deviation prior to sale.",
+      "true": "Q5",
+      "false": "OUT_Defective"
     },
-    "check_assembly": {
-      "type": "binary",
-      "step": 5,
-      "totalSteps": 6,
-      "citation": "4 kap. 3 §",
-      "yes": "result_defective_assembly",
-      "no": "result_not_defective"
+    "Q5": {
+      "type": "decision",
+      "stage": "Assembly & Installation",
+      "citation": "Chapter 4, Section 3",
+      "statuteText": "A defect exists if the goods were installed incorrectly by the seller, or if incorrect assembly instructions accompanied the goods.",
+      "question": "Assembly & Installation Check",
+      "description": "Was the defect caused by incorrect installation performed by the seller, or by faulty assembly instructions in the manual?",
+      "onTrueGround": "Defective under Chapter 4, Section 3 — Defect resulted from faulty installation or incorrect assembly manual.",
+      "true": "OUT_Defective",
+      "false": "Q6"
     },
-    "check_assembly_after_objective_fault": {
-      "type": "binary",
-      "step": 5,
-      "totalSteps": 6,
-      "citation": "4 kap. 3 §",
-      "yes": "check_timeframe_objective",
-      "no": "check_timeframe_objective"
+    "Q6": {
+      "type": "decision",
+      "stage": "Timeframe & Presumption",
+      "citation": "Chapter 4, Sections 14 & 17",
+      "statuteText": "The seller is liable for defects existing at delivery. Defects showing within two years (24 months) are presumed to have existed at delivery.",
+      "question": "Timeframe & Presumption Period",
+      "description": "Did the defect manifest within 2 years (24 months) from the date the product was delivered?",
+      "onTrueGround": "Presumption Rule Active (Chapter 4, Section 17) — Defect manifested within 2 years and is presumed present at delivery.",
+      "onFalseGround": "Presumption Window Expired (Chapter 4, Section 14) — Defect manifested after 2 years; burden of proof rests on consumer.",
+      "true": "OUT_NotDefective",
+      "false": "OUT_NotDefective"
     },
-    "check_timeframe_objective": {
-      "type": "input_months",
-      "step": 6,
-      "totalSteps": 6,
-      "citation": "4 kap. 14 & 17 §§",
-      "next": "evaluate_final_liability"
+    "OUT_Defective": {
+      "type": "outcome",
+      "citation": "Chapter 4 Result",
+      "question": "Defect Established",
+      "description": "The product is deemed legally defective under Chapter 4 of the Consumer Sales Act."
+    },
+    "OUT_NotDefective": {
+      "type": "outcome",
+      "citation": "Chapter 4 Result",
+      "question": "No Statutory Defect Found",
+      "description": "No statutory defects were identified under Chapter 4 of the Consumer Sales Act."
     }
   }
 }
