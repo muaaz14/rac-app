@@ -104,6 +104,7 @@ export default function App() {
   };
 
   const isDefective = currentNodeId === "OUT_Defective";
+  const isNotDefective = currentNodeId === "OUT_NotDefective";
 
   return (
     <div className="min-h-screen bg-[#f2eee5] text-[#1c1c1a] font-sans flex flex-col justify-between antialiased selection:bg-[#1c1c1a] selection:text-white">
@@ -140,7 +141,7 @@ export default function App() {
             {/* Stage Tag & Node ID */}
             <div className="flex flex-col items-center gap-1 mb-4 sm:mb-6">
               <span className="text-xs font-mono text-[#8c887f]">
-                {currentNode.stage} • {currentNodeId}
+                {currentNodeId}
               </span>
             </div>
 
@@ -171,14 +172,24 @@ export default function App() {
             </div>
           </div>
         ) : (
-          /* Responsive Output Screen */
+          /* Responsive Output Screen with Dynamic 3-Outcome Rendering */
           <div className="w-full flex flex-col items-center text-center px-2">
             <span className="text-[11px] sm:text-xs uppercase tracking-widest font-mono text-[#8c887f] mb-2 sm:mb-3">
               {t.legalFindingsHeader}
             </span>
 
-            <h2 className={`text-2xl sm:text-3xl font-bold mb-3 ${isDefective ? "text-[#8b261d]" : "text-[#1e5233]"}`}>
-              {isDefective ? t.statusDefective : t.statusNotDefective}
+            <h2 className={`text-2xl sm:text-3xl font-bold mb-3 ${
+              isDefective 
+                ? "text-[#8b261d]" 
+                : isNotDefective 
+                ? "text-[#1e5233]" 
+                : "text-[#706e68]"
+            }`}>
+              {isDefective 
+                ? t.statusDefective 
+                : isNotDefective 
+                ? t.statusNotDefective 
+                : (t.statusNotApplicable || "Status: NOT APPLICABLE")}
             </h2>
 
             <p className="text-sm text-[#59564f] max-w-md mb-6 leading-relaxed">
@@ -233,16 +244,7 @@ export default function App() {
 
       {/* Responsive Footer */}
       <footer className="w-full border-t border-[#e0dad0] px-4 sm:px-6 py-3.5 sm:py-4 flex flex-row justify-between items-center text-xs text-[#706e68]">
-        <div className="relative flex items-center justify-between w-full" >
-          <button
-            onClick={() => setIsPresetsModalOpen(true)}
-            className="text-[#1c1c1a] hover:underline underline-offset-2 transition cursor-pointer flex items-center gap-1 font-medium text-xs"
-          >
-            <PlayCircle className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">{t.presetsHeader}</span>
-            <span className="sm:hidden text-[#1c1c1a]">Presets</span>
-          </button>
-
+        <div className="relative flex items-center justify-between w-full">
           <button
             onClick={() => setIsTeamPopoverOpen(!isTeamPopoverOpen)}
             className="font-semibold text-[#1c1c1a] hover:underline underline-offset-2 cursor-pointer transition text-xs"
@@ -305,52 +307,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Demo Presets Modal - Responsive Sizing */}
-      {isPresetsModalOpen && (
-        <div className="fixed inset-0 bg-[#1a1f26]/40 backdrop-blur-xs flex justify-center items-center p-3 sm:p-4 z-50">
-          <div className="bg-white max-w-md w-full rounded-lg border border-[#e5e2db] shadow-lg overflow-hidden flex flex-col max-h-[85vh]">
-            
-            {/* Fixed Header */}
-            <div className="flex justify-between items-center px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[#e5e2db] bg-white shrink-0">
-              <h2 className="font-bold text-sm sm:text-base text-[#1a1f26]">{t.presetsHeader}</h2>
-              <button 
-                onClick={() => setIsPresetsModalOpen(false)} 
-                className="text-[#6b7280] hover:text-[#1a1f26] transition cursor-pointer shrink-0"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Preset Options */}
-            <div className="p-4 sm:p-6 flex flex-col gap-3 overflow-y-auto">
-              <button
-                onClick={() => applyPreset("presetA")}
-                className="w-full text-left p-3.5 sm:p-4 rounded-md border border-[#e0dad0] hover:border-[#1c1c1a] hover:bg-[#faf7f0] active:scale-[0.99] transition cursor-pointer flex flex-col gap-1"
-              >
-                <span className="font-semibold text-xs text-[#1c1c1a]">Preset A: Refrigerator (§ 1 vs 6)</span>
-                <span className="text-[11px] sm:text-xs text-[#706e68]">Tests subjective contract deviation vs pre-sale fault disclaimers.</span>
-              </button>
-
-              <button
-                onClick={() => applyPreset("presetB")}
-                className="w-full text-left p-3.5 sm:p-4 rounded-md border border-[#e0dad0] hover:border-[#1c1c1a] hover:bg-[#faf7f0] active:scale-[0.99] transition cursor-pointer flex flex-col gap-1"
-              >
-                <span className="font-semibold text-xs text-[#1c1c1a]">Preset B: Bookshelf (§ 3 Assembly)</span>
-                <span className="text-[11px] sm:text-xs text-[#706e68]">Tests defects resulting from faulty assembly manuals or seller setup.</span>
-              </button>
-
-              <button
-                onClick={() => applyPreset("presetC")}
-                className="w-full text-left p-3.5 sm:p-4 rounded-md border border-[#e0dad0] hover:border-[#1c1c1a] hover:bg-[#faf7f0] active:scale-[0.99] transition cursor-pointer flex flex-col gap-1"
-              >
-                <span className="font-semibold text-xs text-[#1c1c1a]">Preset C: Bicycle (§ 17 Presumption)</span>
-                <span className="text-[11px] sm:text-xs text-[#706e68]">Tests statutory burden of proof within the 2-year window.</span>
-              </button>
-            </div>
-
-          </div>
-        </div>
-      )}
 
     </div>
   );

@@ -3,70 +3,203 @@
   "nodes": {
     "Q1": {
       "type": "decision",
-      "stage": "Scope & Conformity",
-      "citation": "Chapter 4, Section 1",
-      "statuteText": "The goods must in terms of type, quantity, quality, other properties, and packaging conform to what follows from the contract.",
-      "question": "Subjective Requirement Check",
-      "description": "Does the good fail to match the quantity, quality, packaging, or description explicitly agreed upon in the contract or sales receipt?",
-      "onTrueGround": "Defective under Chapter 4, Section 1 — Goods fail to conform with agreed contractual terms.",
-      "true": "OUT_Defective",
-      "false": "Q2"
+      "citation": "Chapter 1, Section 2",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Is the buyer a Consumer?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "Q2",
+      "false": "OUT_NotApplicable"
     },
-    "Q2": {
+"Q2": {
       "type": "decision",
-      "stage": "Objective Quality",
-      "citation": "Chapter 4, Section 2",
-      "statuteText": "The goods must be fit for the purposes for which corresponding goods are normally used, and possess the durability and functionality the buyer can reasonably expect.",
-      "question": "Objective Requirement Check",
-      "description": "Does the product fail normal expectations for fitness for standard purpose, durability, safety, or sample/model comparison?",
-      "onTrueGround": "Defective under Chapter 4, Section 2 — Goods deviate from objective durability or standard fitness expectations.",
-      "true": "Q4",
-      "false": "Q3"
+      "citation": "Chapter 1, Section 2-4",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Is the seller a trader or intermediary?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "Q3",
+      "false": "OUT_NotApplicable"
     },
-    "Q3": {
+"Q3": {
       "type": "decision",
-      "stage": "Public Statements",
-      "citation": "Chapter 4, Section 5",
-      "statuteText": "Goods are defective if they fail to conform to claims made in advertising, on packaging, or in public statements by the seller or manufacturer.",
-      "question": "Marketing & Public Statements",
-      "description": "Does the product fail to conform to specific claims made in marketing, on packaging, or in public statements by the seller or manufacturer?",
-      "onTrueGround": "Defective under Chapter 4, Section 5 — Goods fail to match claims made in marketing or packaging.",
+      "citation": "Chapter 1, Section 2",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Does the agreement concern “goods” within the meaning of Chapter 1, §2?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
       "true": "Q4",
+      "false": "OUT_NotApplicable"
+    },
+"Q4": {
+      "type": "decision",
+      "citation": "Chapter 1, Section 8",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Does the agreement fall under any exemption in Chapter 1, §8?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "OUT_NotApplicable",
       "false": "Q5"
     },
-    "Q4": {
+"Q5": {
       "type": "decision",
-      "stage": "Seller Disclaimers",
-      "citation": "Chapter 4, Section 6",
-      "statuteText": "The seller is not liable for a deviation if the buyer was explicitly informed of the specific deviation and accepted it prior to purchase.",
-      "question": "Explicit Pre-Sale Fault Disclaimer",
-      "description": "Was the consumer explicitly informed of this specific fault prior to purchase and did they explicitly accept it?",
-      "onTrueGround": "Exempted under Chapter 4, Section 6 — Consumer explicitly approved the specific deviation prior to sale.",
-      "true": "Q5",
+      "citation": "SFS 2022:260 (into force) 01-05-2022",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Is the purchase covered by the Act in terms of temporal scope?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "Q6",
+      "false": "OUT_NotApplicable"
+    },
+"Q6": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 10",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Is the product prohibited under Swedish product safety laws/regulations, or is its use a danger to life or health?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "OUT_Defective",
+      "false": "Q7"
+    },
+"Q7": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 12",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Does a third party have ownership or user rights to the product?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "OUT_Defective",
+      "false": "Q8"
+    },
+"Q8": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 11",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Does the seller provide the safety information in accordance with product safety law?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "Q9",
       "false": "OUT_Defective"
     },
-    "Q5": {
+"Q9": {
       "type": "decision",
-      "stage": "Assembly & Installation",
       "citation": "Chapter 4, Section 3",
-      "statuteText": "A defect exists if the goods were installed incorrectly by the seller, or if incorrect assembly instructions accompanied the goods.",
-      "question": "Assembly & Installation Check",
-      "description": "Was the defect caused by incorrect installation performed by the seller, or by faulty assembly instructions in the manual?",
-      "onTrueGround": "Defective under Chapter 4, Section 3 — Defect resulted from faulty installation or incorrect assembly manual.",
-      "true": "OUT_Defective",
-      "false": "Q6"
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Does the seller provide the required information in accordance with commercial law and does the product meet the general information requirements?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "Q14",
+      "false": "Q10"
     },
-    "Q6": {
+"Q10": {
       "type": "decision",
-      "stage": "Timeframe & Presumption",
-      "citation": "Chapter 4, Sections 14 & 17",
-      "statuteText": "The seller is liable for defects existing at delivery. Defects showing within two years (24 months) are presumed to have existed at delivery.",
-      "question": "Timeframe & Presumption Period",
-      "description": "Did the defect manifest within 2 years (24 months) from the date the product was delivered?",
-      "onTrueGround": "Presumption Rule Active (Chapter 4, Section 17) — Defect manifested within 2 years and is presumed present at delivery.",
-      "onFalseGround": "Presumption Window Expired (Chapter 4, Section 14) — Defect manifested after 2 years; burden of proof rests on consumer.",
+      "citation": "Chapter 4, Section 7",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Would the missing information have an impact on the sale?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "Q11",
+      "false": "Q14"
+    },
+    "Q11": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 7",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Has the information been corrected appropriately?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
       "true": "OUT_NotDefective",
+      "false": "Q12"
+    },
+    "Q12": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 7",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Was the information given by the third party correct?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "Q13",
+      "false": "OUT_Defective"
+    },
+    "Q13": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 7",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Did the seller know or ought to know about the missing information?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "OUT_Defective",
       "false": "OUT_NotDefective"
+    },
+    "Q14": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 1",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Does the product meet the agreed requirements?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "Q15",
+      "false": "Q19"
+    },
+    "Q15": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 2",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Does the product meet the objective requirements?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "Q16",
+      "false": "Q19"
+    },
+    "Q16": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 9",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Was the defect caused by installation?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "Q17",
+      "false": "OUT_NotDefective"
+    },
+    "Q17": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 9",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Was it installed by the seller or someone on their behalf?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "OUT_Defective",
+      "false": "Q18"
+    },
+    "Q18": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 9",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Was the faulty installation based on incorrect instructions from the seller?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "OUT_Defective",
+      "false": "OUT_NotDefective"
+    },
+    "Q19": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 6",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Was the consumer informed about the specific deviation before the purchase?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "Q20",
+      "false": "OUT_Defective"
+    },
+    "Q20": {
+      "type": "decision",
+      "citation": "Chapter 4, Section 6",
+      "statuteText": "Lorem Ipsum Dolor Sit",
+      "question": "Did the consumer expressly approve the deviation?",
+      "description": "Lorem Ipsum Dolor Sit",
+      "onTrueGround": "Lorem Ipsum Dolor Sit",
+      "true": "OUT_NotDefective",
+      "false": "OUT_Defective"
     },
     "OUT_Defective": {
       "type": "outcome",
@@ -79,6 +212,12 @@
       "citation": "Chapter 4 Result",
       "question": "No Statutory Defect Found",
       "description": "No statutory defects were identified under Chapter 4 of the Consumer Sales Act."
+    },
+    "OUT_NotApplicable": {
+      "type": "outcome",
+      "citation": "Scope Check Result",
+      "question": "Act Not Applicable",
+      "description": "This matter falls outside the scope of Chapter 4 of the Consumer Sales Act (2022:260)."
     }
   }
 }
