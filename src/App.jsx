@@ -47,20 +47,23 @@ export default function App() {
       { nodeId: currentNodeId, caseDataSnapshot: { grounds: [...caseData.grounds] } }
     ]);
 
-    const updatedGrounds = [...caseData.grounds];
     const groundText = boolChoice ? currentNode.onTrueGround : currentNode.onFalseGround;
     
-    if (groundText) {
-      updatedGrounds.push({
-        citation: currentNode.citation,
-        rationale: groundText
-      });
-    }
+    const newGround = groundText ? {
+      citation: currentNode.citation,
+      rationale: groundText
+    } : null;
 
+    const updatedGrounds = newGround ? [...caseData.grounds, newGround] : [...caseData.grounds];
     const branchKey = boolChoice ? "true" : "false";
     const nextNodeId = currentNode[branchKey];
 
-    setCaseData({ grounds: updatedGrounds });
+    // Store updated grounds and track the immediate last ground that triggered this step
+    setCaseData({ 
+      grounds: updatedGrounds,
+      lastTriggeredGround: newGround || caseData.lastTriggeredGround
+    });
+
     if (nextNodeId) setCurrentNodeId(nextNodeId);
   };
 
@@ -75,7 +78,7 @@ export default function App() {
   const resetAssessment = () => {
     setCurrentNodeId(rulesData.startNode || "Q1");
     setHistoryStack([]);
-    setCaseData({ grounds: [] });
+    setCaseData({ grounds: [], lastTriggeredGround: null });
     setIsRationaleExpanded(false);
   };
 
@@ -197,7 +200,8 @@ export default function App() {
             </p>
 
             {/* Expand / Collapse Rationale Button */}
-            {caseData.grounds.length > 0 && (
+            {/* Expand / Collapse Rationale Link */}
+            {caseData.lastTriggeredGround && (
               <button
                 onClick={() => setIsRationaleExpanded(!isRationaleExpanded)}
                 className="text-xs font-medium text-[#706e68] hover:text-[#1c1c1a] underline underline-offset-4 flex items-center gap-1 mb-6 sm:mb-8 cursor-pointer transition"
@@ -207,8 +211,22 @@ export default function App() {
               </button>
             )}
 
+            {/* Ultimate Decisive Reason Box */}
+            {isRationaleExpanded && caseData.lastTriggeredGround && (
+              <div className="w-full bg-[#f8f5ee] border-l-2 border-[#8b261d] p-4 sm:p-5 text-left mb-6 sm:mb-8 shadow-2xs transition-all duration-200 rounded-r-md">
+                <div className="flex flex-col gap-1">
+                  <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#8b261d]">
+                    {caseData.lastTriggeredGround.citation}
+                  </span>
+                  <p className="text-xs text-[#2c2a26] leading-relaxed">
+                    {caseData.lastTriggeredGround.rationale}
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Expandable Statutory Rationale Box */}
-            {isRationaleExpanded && caseData.grounds.length > 0 && (
+            {/* {isRationaleExpanded && caseData.grounds.length > 0 && (
               <div className="w-full bg-[#f8f5ee] border-l-2 border-[#8b261d] p-4 sm:p-5 text-left mb-6 sm:mb-8 shadow-2xs transition-all duration-200 rounded-r-md">
                 {caseData.grounds.map((ground, idx) => (
                   <div key={idx} className="flex flex-col gap-1 border-b border-[#ece7dc] pb-3 mb-3 last:border-0 last:pb-0 last:mb-0">
@@ -221,7 +239,7 @@ export default function App() {
                   </div>
                 ))}
               </div>
-            )}
+            )} */}
 
             <button
               onClick={resetAssessment}
@@ -254,7 +272,7 @@ export default function App() {
 
           {/* Mobile-Adjusted Team Popover */}
           {isTeamPopoverOpen && (
-            <div className="absolute right-0 bottom-full mb-3 w-48 sm:w-56 bg-[#faf9f6] border border-[#e5e2db] rounded-lg p-4 shadow-md z-40 text-left">
+            <div className="absolute left-0 bottom-full mb-3 w-48 sm:w-56 bg-[#faf9f6] border border-[#e5e2db] rounded-lg p-4 shadow-md z-40 text-left">
               <div className="flex justify-between items-center mb-2 pb-1.5 border-b border-[#e5e2db]">
                 <span className="font-bold text-xs text-[#1c1c1a]">{t.teamGroupLabel}</span>
                 <button
@@ -271,7 +289,7 @@ export default function App() {
                 <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#2b5883]"></span> Moritz</li>
                 <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#2b5883]"></span> Muaaz</li>
               </ul>
-              <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-[#faf9f6] border-b border-r border-[#e5e2db] rotate-45"></div>
+              <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-[#faf9f6] border-b border-r border-[#e5e2db] rotate-45"></div>
             </div>
           )}
         </div>
